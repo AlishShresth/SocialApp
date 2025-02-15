@@ -1,16 +1,16 @@
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.decorators import action
 
 from core.abstract.viewsets import AbstractViewSet
 from core.post.models import Post
 from core.post.serializers import PostSerializer
+from core.auth.permissions import UserPermission
 
 
 class PostViewSet(AbstractViewSet):
-    http_method_names = ('post', 'get', 'put', 'patch', 'delete')
-    permission_classes = (IsAuthenticated,)
+    http_method_names = ('post', 'get', 'put', 'delete')
+    permission_classes = (UserPermission,)
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -29,8 +29,7 @@ class PostViewSet(AbstractViewSet):
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @action(methods=['post'], detail=True) 
-    # will automatically create route post/post_pk/like/
+    @action(methods=['post'], detail=True)
     def like(self, request, *args, **kwargs):
         post = self.get_object()
         user = self.request.user
@@ -42,7 +41,6 @@ class PostViewSet(AbstractViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=True)
-    # will automatically create route post/post_pk/remove_like/
     def remove_like(self, request, *args, **kwargs):
         post = self.get_object()
         user = self.request.user
