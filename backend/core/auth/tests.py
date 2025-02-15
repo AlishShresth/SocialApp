@@ -1,3 +1,9 @@
-from django.test import TestCase
+import pytest
+from rest_framework import status
 
-# Create your tests here.
+from core.fixtures.user import user
+
+
+class TestAuthenticationViewSet:
+    endpoint = '/api/auth/'
+    
