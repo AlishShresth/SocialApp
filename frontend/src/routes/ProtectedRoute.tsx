@@ -7,9 +7,9 @@ interface ProtectedRouteProps {
 }
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const auth = JSON.parse(localStorage.getItem('auth') || '{}') as AuthData;
+  const { user } = JSON.parse(localStorage.getItem('auth') || '{}') as AuthData;
 
-  return auth.user?.id ? <>{children}</> : <Navigate to='/login' />;
+  return user ? <>{children}</> : <Navigate to='/login' />;
 }
 
 export default ProtectedRoute;
