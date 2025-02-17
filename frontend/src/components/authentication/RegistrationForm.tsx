@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
-import { Input } from '../components/ui/Input';
+import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Textarea } from '../ui/Textarea';
 import { Alert, AlertDescription } from '../ui/Alert';
@@ -76,22 +76,23 @@ const RegistrationForm: React.FC = () => {
       <CardContent>
         <form onSubmit={handleSubmit} className='space-y-4'>
           <div>
-            <Input value={form.first_name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, first_name: e.target.value })} type='text' placeholder='Enter first name' className='w-full' required />
+            <Input value={form.first_name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, first_name: e.target.value })} type='text' placeholder='Enter first name' label="First Name"
+ className='w-full' required />
           </div>
           <div>
-            <Input value={form.last_name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, last_name: e.target.value })} type='text' placeholder='Enter last name' className='w-full' required />
+            <Input value={form.last_name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, last_name: e.target.value })} type='text' placeholder='Enter last name' label="Last Name" className='w-full' required />
           </div>
           <div>
-            <Input value={form.username} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, username: e.target.value })} type='text' placeholder='Enter username' className='w-full' required />
+            <Input value={form.username} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, username: e.target.value })} type='text' placeholder='Enter username' label="Username"className='w-full' required />
           </div>
           <div>
-            <Input value={form.email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })} type='email' placeholder='Enter email' className='w-full' required />
+            <Input value={form.email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })} type='email' placeholder='Enter email' label="Email Address" className='w-full' required />
           </div>
           <div>
-            <Input value={form.password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })} type='password' placeholder='Password' className='w-full' required />
+            <Input value={form.password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })} type='password' placeholder='Password' label="Password" className='w-full' required />
           </div>
           <div>
-            <Textarea value={form.bio} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, bio: e.target.value })} placeholder='A simple bio ... (Optional)' className='w-full' />
+            <Textarea value={form.bio} onChange={(e: any) => setForm({ ...form, bio: e.target.value })} label="Bio" placeholder='A simple bio ... (Optional)' className='w-full' />
           </div>
           {
             error && (

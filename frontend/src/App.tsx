@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Home from './pages/Home';
+import Registration from './pages/Registration';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
         </ProtectedRoute>
       } />
       <Route path='/login/' element={<div>Login</div>} />
+      <Route path='/register' element={<Registration/>} />
     </Routes>
   )
 }
