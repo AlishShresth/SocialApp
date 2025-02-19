@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Alert, AlertDescription } from '../ui/Alert';
-import { Lock, User } from 'lucide-react';
+import { Lock, User, Eye, EyeOff } from 'lucide-react';
 
 interface FormData {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -17,18 +17,19 @@ interface AuthResponse {
   refresh: string;
   user: {
     id: number;
-    username: string;
+    email: string;
   }
 }
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>({
-    username: '',
+    email: '',
     password: ''
   });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Object | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,6 +56,15 @@ const LoginForm: React.FC = () => {
       setIsLoading(false);
     };
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const PasswordToggleButton = () => (
+    <button type='button' onClick={togglePasswordVisibility} className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray700 dark:test-gray-400 dark:hover:text-gray-300 focus-outline-none curs' aria-label={showPassword ? 'Hide password' : 'Show password'}>{showPassword ? <Eye size={16} /> : <EyeOff size={16} />}</button>
+  );
+
   return (
     <Card className='w-full max-w-md mx-auto'>
       <CardHeader>
@@ -62,12 +72,12 @@ const LoginForm: React.FC = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className='space-y-6'>
-          <Input label='Username' value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} required placeholder='Enter username' startIcon={<User size={16} />} error={Boolean(error)} autoComplete='username' />
-          <Input label="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required type='password' placeholder='Enter password' startIcon={<Lock size={16} />} minLength={8} error={Boolean(error)} helperText="Password must be at least 8 characters long" autoComplete='current-password' />
+          <Input label='Email' value={form.email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })} required placeholder='Enter email' startIcon={<User size={16} />} error={Boolean(error && error.hasOwnProperty('email'))} autoComplete='email' type='email' />
+          <Input label="Password" value={form.password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })} required type={showPassword ? 'text' : 'password'} placeholder='Enter password' startIcon={<Lock size={16} />} endIcon={<PasswordToggleButton />} minLength={8} error={Boolean(error && error.hasOwnProperty('password'))} helperText="Password must be at least 8 characters long" autoComplete='current-password' />
 
           {error && (
             <Alert variant='destructive'>
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>{error.hasOwnProperty('password') && error['password'][0]}{error.hasOwnProperty('username') && error['username'][0]}{error.hasOwnProperty('detail') && error['detail']}</AlertDescription>
             </Alert>
           )}
 
